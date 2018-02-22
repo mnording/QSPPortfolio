@@ -16,8 +16,32 @@ class portfolio
                 "id" => "INSTAR",
                 "name" =>"Insights Network",
                 "quantity" => 1500000,
-                "date" => 1519862400 // 1st March 2018
+                "dateAdded" => 1519862400, // 1st March 2018
+                "UsdIcoCost" => 0.17
+            ),
+            array(
+                "id"=>"XNK",
+                "name"=>"Ink Protocol",
+                "quantity"=> 200,
+                "dateAdded"=> 1519776000, // 28 Feb 2018
+                "UsdIcoCost"=> 0.13
             )
         );
+    }
+    function getHoldings()
+    {
+        return $this->holdings();
+    }
+    function getEarliestDate()
+    {
+        $date = 99999999999;
+        foreach($this->holdings as $holding)
+        {
+            if($holding["date"] < $date)
+            {
+                $date = $holding["date"];
+            }
+        }
+        return $date;
     }
 }
