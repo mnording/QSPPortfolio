@@ -6,7 +6,7 @@ $portfolio = new portfolio();
 
 $earliestDate = $portfolio->getEarliestDate();
 
-$today = new time();
+$today = time();
 
 
 //$numDays = abs($earliestDate - $today)/60/60/24;

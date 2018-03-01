@@ -37,9 +37,9 @@ class portfolio
         $date = 99999999999;
         foreach($this->holdings as $holding)
         {
-            if($holding["date"] < $date)
+            if($holding["dateAdded"] < $date)
             {
-                $date = $holding["date"];
+                $date = $holding["dateAdded"];
             }
         }
         return $date;
