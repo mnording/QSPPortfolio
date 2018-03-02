@@ -6,11 +6,18 @@
  * Date: 2018-02-22
  * Time: 09:45
  */
+require 'database.php';
+
+/***
+ * Class portfolio
+ */
 class portfolio
 {
     private $holdings;
+    private $dataStorage;
     function __construct()
     {
+        $this->dataStorage = new database();
         $this->holdings = array(
             array(
                 "id" => "INSTAR",
@@ -30,18 +37,24 @@ class portfolio
     }
     function getHoldings()
     {
-        return $this->holdings();
+        return $this->dataStorage->GetHoldings();
     }
     function getEarliestDate()
     {
-        $date = 99999999999;
-        foreach($this->holdings as $holding)
+        $date = "2018-05-01";
+
+        foreach($this->getHoldings() as $holding)
         {
-            if($holding["dateAdded"] < $date)
+
+            if($holding["dateAdded"] <= $date)
             {
                 $date = $holding["dateAdded"];
             }
         }
         return $date;
+    }
+    function GetDailyPriceData($start,$end)
+    {
+        return $this->dataStorage->GetDailyPriceData($start,$end, $this->getHoldings());
     }
 }

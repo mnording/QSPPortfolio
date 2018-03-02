@@ -12,7 +12,9 @@ namespace interfaces;
 interface DataStorage
 {
 
-    public function GetDailyDataForCoin();
     public function GetHoldings();
+    public function AddHourPriceData( $coinId,  $hourtimestamp,  $usdvalue);
+    public function AddDailyPriceData( $coinId,  $dayTimestamp,  $usdvalue);
+    public function GetDailyPriceData( $startTimeStamp,  $endTimestamp, $holdings);
 
 }

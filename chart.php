@@ -5,7 +5,13 @@
  * Date: 2018-02-22
  * Time: 09:53
  */
+error_reporting(-1);
+require 'portfolio.php';
 
+$portfolio = new portfolio();
+
+$chartData = $portfolio->GetDailyPriceData(1519689600,time());
+var_dump($chartData);
 ?>
 <style>
     #container {
@@ -23,12 +29,7 @@
 <script>
     // Data generated from http://www.bikeforums.net/professional-cycling-fans/1113087-2017-tour-de-france-gpx-tcx-files.html
     var elevationData = [
-        [225],
-        [226],
-        [228],
-        [228],
-        [238],
-        [239]
+        <?php foreach($chartData as $datapoint) { echo "[".$datapoint["value"]."],";} ?>
     ] ;
 
     // Now create the chart
@@ -78,9 +79,17 @@
                 text: 'XNK Distrobution'
             }]
         }],
-
+<?php $startDate = $portfolio->getEarliestDate();
+$addingDate = $startDate;
+echo $startdate;
+$dateArray= array();
+while ($addingDate <= date("Y-m-d")) {
+    $dateArray[] = $addingDate;
+    $addingDate = strtotime("+1 day", strtotime($addingDate));
+    $addingDate = date("Y-m-d",$addingDate);
+}?>
         xAxis: {
-            categories: ['2018-03-01', '2018-03-02', '2018-03-03', '2018-03-04'],
+            categories:  <?php echo json_encode($dateArray); ?>,
             labels: {
                 format: '{value}'
             },
