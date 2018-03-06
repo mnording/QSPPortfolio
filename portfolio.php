@@ -7,7 +7,7 @@
  * Time: 09:45
  */
 require_once 'database.php';
-require 'dbconfig.php';
+require_once 'dbconfig.php';
 /***
  * Class portfolio
  */

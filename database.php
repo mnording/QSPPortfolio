@@ -140,11 +140,11 @@ class database implements \interfaces\DataStorage
      * @param $coinid
      * @return int Amount held of certain coin
      */
-    public function GetAmountsOfCertainCoin($coinid) : integer
+    public function GetAmountsOfCertainCoin($coinid) : int
     {
        $res = $this->dblink->query("SELECT SUM(`amount`) FROM holding WHERE coinid = $coinid");
         $amount = mysqli_fetch_array($res)[0];
-        return $amount;
+        return intval($amount);
     }
 
     /***
