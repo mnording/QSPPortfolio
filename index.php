@@ -17,15 +17,12 @@ $chartData = $portfolio->GetDailyPriceData(1519689600,time());
 <?php require 'tracking.php'; ?>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title></title>
-    <meta name="description" content="">
+    <title>Quantstamp Proof of Care Portfolio Tracker</title>
+    <meta name="description" content="Follow the value of the proof of care program by Quantstamp!">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-
     <link rel="stylesheet" href="css/main.css">
 </head>
-
 <body>
 <div class="wrapper">
 <div id="container" style="height: 400px;"></div>
