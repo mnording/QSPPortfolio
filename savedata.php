@@ -35,5 +35,5 @@ foreach($coins as $coin)
     $totalUsdValue = $currentAmountOfCoin * $resp->price_usd;
     echo "we have ".$currentAmountOfCoin." of ".$coin->GetName();
     echo "new price is ".$resp->price_usd;
-    $prices->AddHourlyPrice($coin->GetId(),$totalUsdValue);
+    $prices->AddHourlyPrice($coin,$totalUsdValue);
 }

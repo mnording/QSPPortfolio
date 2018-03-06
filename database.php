@@ -20,6 +20,10 @@ class database implements \interfaces\DataStorage
     {
         $this->dblink = new mysqli("localhost",$dbconfig["user"],$dbconfig["pass"],$dbconfig["dbname"]);
     }
+
+    /***
+     * @return array Array of holdings
+     */
     public function GetHoldings()
     {
         $query ="SELECT * FROM  `holding` ";
@@ -32,17 +36,34 @@ class database implements \interfaces\DataStorage
         return $result;
     }
 
-    public function AddHourPriceData( $coinId, $usdvalue)
+    /***
+     * @param $coin The coin that with the new value
+     * @param $usdvalue The new usd value
+     */
+    public function AddHourPriceData( $coin, $usdvalue)
     {
-        $query = "INSERT INTO  `hourly` (`coinid`,`usdvalue`) VALUES ($coinId,$usdvalue)";
+        $query = "INSERT INTO  `hourly` (`coinid`,`usdvalue`) VALUES ($coin->GetId(),$usdvalue)";
         $this->dblink->query($query);
     }
 
-    public function AddDailyPriceData( $coinId,  $usdvalue,$day)
+    /***
+     * @param $coin
+     * @param $usdvalue
+     * @param $day
+     */
+    public function AddDailyPriceData( $coin,  $usdvalue,$day)
     {
-        $query = "INSERT INTO  `daily` (`coinid`,`usdvalue`,`dateAdded`) VALUES ($coinId,$usdvalue,'$day')";
+        $query = "INSERT INTO  `daily` (`coinid`,`usdvalue`,`dateAdded`) VALUES ($coin->GetId(),$usdvalue,'$day')";
        $this->dblink->query($query);
     }
+
+    /***
+     * @param $startTimestamp
+     * @param $endTimestamp
+     * @param $holdings
+     * @param $interval
+     * @return array
+     */
     private function GetPriceData($startTimestamp, $endTimestamp, $holdings,$interval)
     {
         $checkingDate = $startTimestamp;
@@ -77,10 +98,20 @@ class database implements \interfaces\DataStorage
         return $holdingDataForChart;
     }
 
+    /***
+     * @param $startTimeStamp
+     * @param $endTimestamp
+     * @param $holdings
+     * @return array
+     */
     public function GetDailyPriceData( $startTimeStamp,  $endTimestamp, $holdings)
     {
         return $this->GetPriceData($startTimeStamp,$endTimestamp,$holdings,"daily");
     }
+
+    /***
+     * @return array Return all coins in the DB
+     */
     public function GetCoins()
     {
         $res = $this->dblink->query("SELECT * FROM coin");
@@ -91,6 +122,11 @@ class database implements \interfaces\DataStorage
         }
         return $coinarray;
     }
+
+    /**
+     * @param $id Id of the coin
+     * @return \Entities\Coin the coin requested
+     */
     public function GetCoin($id)
     {
         $res = $this->dblink->query("SELECT * FROM coin WHERE id = $id");
@@ -100,12 +136,20 @@ class database implements \interfaces\DataStorage
            return  new Entities\Coin($row["id"],$row["name"],$row["coinmarketticker"],$row["image"]);
     }
 
-    public function GetAmountsOfCertainCoin($coinid)
+    /***
+     * @param $coinid
+     * @return int Amount held of certain coin
+     */
+    public function GetAmountsOfCertainCoin($coinid) : integer
     {
        $res = $this->dblink->query("SELECT SUM(`amount`) FROM holding WHERE coinid = $coinid");
         $amount = mysqli_fetch_array($res)[0];
         return $amount;
     }
+
+    /***
+     * @param $coins An array of Coins that should be updated.
+     */
     public function UpdateDaily($coins)
     {
         foreach($coins as $coin)

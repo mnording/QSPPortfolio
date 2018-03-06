@@ -17,11 +17,11 @@ class pricehandler
         $this->dblink = new database($dbconfig);
 
     }
-    public function AddHourlyPrice($coinId,$usdvalue)
+    public function AddHourlyPrice($coin,$usdvalue)
     {
         //multiply current holdings with USD value
-        echo "adding value ".$usdvalue. " to coin ".$coinId;
-        $this->dblink->AddHourPriceData($coinId,$usdvalue);
+        echo "adding value ".$usdvalue. " to coin ".$coin->GetId();
+        $this->dblink->AddHourPriceData($coin,$usdvalue);
     }
 
 }
