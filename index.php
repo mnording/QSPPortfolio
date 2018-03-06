@@ -87,7 +87,36 @@ $chartData = $portfolio->GetDailyPriceData(1519689600,time());
         subtitle: {
             text: 'Holder Value over time'
         },
-
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        align: 'center',
+                        verticalAlign: 'bottom',
+                        layout: 'horizontal'
+                    },
+                    yAxis: {
+                        labels: {
+                            align: 'left',
+                            x: 0,
+                            y: -5
+                        },
+                        title: {
+                            text: null
+                        }
+                    },
+                    subtitle: {
+                        text: null
+                    },
+                    credits: {
+                        enabled: false
+                    }
+                }
+            }]
+        },
         annotations: [{
             labelOptions: {
                 shape: 'connector',
