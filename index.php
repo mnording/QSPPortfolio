@@ -14,6 +14,7 @@ $chartData = $portfolio->GetDailyPriceData(1519689600,time());
 <!doctype html>
 <html class="no-js" lang="">
 <head>
+<?php require 'tracking.php'; ?>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title></title>
@@ -61,7 +62,7 @@ $chartData = $portfolio->GetDailyPriceData(1519689600,time());
 </table>
 <div class="content">
     <p>The above data is a visualization of the value of tokens that are shared with participants of the Quantstamp Proof-of-Care program.
-        Tokens of audited companies are airdropped to participants and the above graphs shows the value of the tokens that bave been airdropped to this date.</p>
+        Tokens of audited companies are airdropped to participants and the above graph shows the value of the tokens that have been airdropped to this date.</p>
 </div>
 <div class="footer">
     <span>Created by mnording</span><br>
