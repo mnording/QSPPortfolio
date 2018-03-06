@@ -43,7 +43,7 @@ $chartData = $portfolio->GetDailyPriceData(1519689600,time());
         echo "<td>".$coin->GetName()."</td>";
         echo "<td>".number_format($amount)."</td>";
         echo "<td>".money_format('%i', $currentValue)."</td>";
-        echo "<tr>";
+        echo "</tr>";
         $totalvalue += $currentValue;
     }
     ?>
@@ -56,6 +56,12 @@ $chartData = $portfolio->GetDailyPriceData(1519689600,time());
     </tbody>
 </table>
 <div class="footer">
+    <span>Created by mnording</span><br>
+    <span><a href="https://twitter.com/mnording?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @mnording</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </span></br>
+   <span>
+       <a href="https://github.com/mnording/QSPPortfolio/"><img src="images/GitHub-Mark-32px.png"></a>
+   </span> </br>
     <span>Price-data from CoinMarketCap</span>
 </div>
 <script>

@@ -17,3 +17,10 @@
     background-color: #d0d0d0;
 
 }
+table{
+    border-spacing: 0px 5px;
+}
+table tr:nth-child(2) td
+{
+    background-color: #f4f4f4
+}
