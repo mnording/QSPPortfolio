@@ -4,6 +4,7 @@
  * User: matti
  * Date: 2018-03-03
  * Time: 16:25
+ *  This is being run daily by a schedueler in order to transform hour data into daily averages.
  */
 
 require_once 'portfolio.php';

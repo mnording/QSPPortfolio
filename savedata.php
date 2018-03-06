@@ -4,6 +4,7 @@
  * User: matti
  * Date: 2018-03-02
  * Time: 15:16
+ * This is being run hourly by a schedueler to fetch average prices from coinmarketcap.
  */
 require 'portfolio.php';
 require 'pricehandler.php';
