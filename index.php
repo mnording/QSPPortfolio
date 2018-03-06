@@ -11,19 +11,23 @@ require 'portfolio.php';
 $portfolio = new portfolio();
 $chartData = $portfolio->GetDailyPriceData(1519689600,time());
 ?>
-<link rel="stylesheet" href="css/main.css">
-<style>
-    #container {
-        width: 100%;
-        height: 400px;
-        margin: 1em auto;
-    }
-</style>
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/annotations.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<div id="container" style="height: 400px; min-width: 380px"></div>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+<div class="wrapper">
+<div id="container" style="height: 400px;"></div>
 <table class="cointable">
     <thead>
     <th></th>
@@ -55,6 +59,10 @@ $chartData = $portfolio->GetDailyPriceData(1519689600,time());
     </tr>
     </tbody>
 </table>
+<div class="content">
+    <p>The above data is a visualization of the value of tokens that are shared with participants of the Quantstamp Proof-of-Care program.
+        Tokens of audited companies are airdropped to participants and the above graphs shows the value of the tokens that bave been airdropped to this date.</p>
+</div>
 <div class="footer">
     <span>Created by mnording</span><br>
     <span><a href="https://twitter.com/mnording?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @mnording</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -64,6 +72,11 @@ $chartData = $portfolio->GetDailyPriceData(1519689600,time());
    </span> </br>
     <span>Price-data from CoinMarketCap</span>
 </div>
+</div>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/annotations.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script>
     // Data generated from http://www.bikeforums.net/professional-cycling-fans/1113087-2017-tour-de-france-gpx-tcx-files.html
     var elevationData = [
@@ -202,3 +215,5 @@ while ($addingDate <= date("Y-m-d")) {
 
     });
 </script>
+</body>
+</html>
