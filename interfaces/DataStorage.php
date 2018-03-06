@@ -13,8 +13,12 @@ interface DataStorage
 {
 
     public function GetHoldings();
-    public function AddHourPriceData( $coinId,  $hourtimestamp,  $usdvalue);
-    public function AddDailyPriceData( $coinId,  $dayTimestamp,  $usdvalue);
+    public function AddHourPriceData( $coinId,   $usdvalue);
+    public function AddDailyPriceData( $coinId,   $usdvalue,$day);
     public function GetDailyPriceData( $startTimeStamp,  $endTimestamp, $holdings);
+    public function GetCoins();
+    public function GetAmountsOfCertainCoin($coinid);
+
+
 
 }

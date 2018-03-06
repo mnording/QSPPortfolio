@@ -1,0 +1,19 @@
+.summaryrow{
+    font-weight:bold;
+}
+.cointable
+{
+    width:100%;
+}
+.cointable td{
+    text-align: center;
+}
+.footer
+{
+    padding:10px;
+    text-align:center;
+    width:100%;
+    margin-top: 100px;
+    background-color: #d0d0d0;
+
+}

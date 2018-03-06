@@ -6,8 +6,8 @@
  * Date: 2018-02-22
  * Time: 09:45
  */
-require 'database.php';
-
+require_once 'database.php';
+require 'dbconfig.php';
 /***
  * Class portfolio
  */
@@ -17,23 +17,9 @@ class portfolio
     private $dataStorage;
     function __construct()
     {
-        $this->dataStorage = new database();
-        $this->holdings = array(
-            array(
-                "id" => "INSTAR",
-                "name" =>"Insights Network",
-                "quantity" => 1500000,
-                "dateAdded" => 1519862400, // 1st March 2018
-                "UsdIcoCost" => 0.17
-            ),
-            array(
-                "id"=>"XNK",
-                "name"=>"Ink Protocol",
-                "quantity"=> 200,
-                "dateAdded"=> 1519776000, // 28 Feb 2018
-                "UsdIcoCost"=> 0.13
-            )
-        );
+        global $dbconfig;
+        $this->dataStorage = new database($dbconfig);
+
     }
     function getHoldings()
     {
@@ -46,9 +32,9 @@ class portfolio
         foreach($this->getHoldings() as $holding)
         {
 
-            if($holding["dateAdded"] <= $date)
+            if($holding->GetDate() <= $date)
             {
-                $date = $holding["dateAdded"];
+                $date = $holding->GetDate();
             }
         }
         return $date;
@@ -57,4 +43,18 @@ class portfolio
     {
         return $this->dataStorage->GetDailyPriceData($start,$end, $this->getHoldings());
     }
+    function getAllCoins()
+    {
+        $coins = $this->dataStorage->GetCoins();
+        return $coins;
+    }
+    function GetAmountOfCoin($coinid)
+    {
+        return $this->dataStorage->GetAmountsOfCertainCoin($coinid);
+    }
+    function GetLatestValue($coinid)
+    {
+        return $this->dataStorage->GetLatestValueOfCoin($coinid);
+    }
+
 }

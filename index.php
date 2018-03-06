@@ -6,16 +6,15 @@
  * Time: 09:53
  */
 error_reporting(-1);
+setlocale(LC_MONETARY, 'en_US');
 require 'portfolio.php';
-
 $portfolio = new portfolio();
-
 $chartData = $portfolio->GetDailyPriceData(1519689600,time());
-var_dump($chartData);
 ?>
+<link rel="stylesheet" href="css/main.css">
 <style>
     #container {
-        max-width: 800px;
+        width: 100%;
         height: 400px;
         margin: 1em auto;
     }
@@ -25,7 +24,40 @@ var_dump($chartData);
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
 <div id="container" style="height: 400px; min-width: 380px"></div>
-
+<table class="cointable">
+    <thead>
+    <th></th>
+    <th>Coin</th>
+    <th>Amount of Coins</th>
+    <th>Current Value</th>
+    </thead>
+    <tbody>
+    <?php
+    $totalvalue = 0;
+    foreach($portfolio->getAllCoins() as $coin)
+    {
+        $amount = $portfolio->GetAmountOfCoin($coin->GetId());
+        $currentValue = $portfolio->GetLatestValue($coin->GetId());
+        echo "<tr>";
+        echo "<td><img src='".$coin->GetImageUrl()."'></td>";
+        echo "<td>".$coin->GetName()."</td>";
+        echo "<td>".number_format($amount)."</td>";
+        echo "<td>".money_format('%i', $currentValue)."</td>";
+        echo "<tr>";
+        $totalvalue += $currentValue;
+    }
+    ?>
+    <tr class="summaryrow">
+        <td></td>
+        <td>Total</td>
+        <td></td>
+        <td><?php echo money_format('%i', $totalvalue) ?></td>
+    </tr>
+    </tbody>
+</table>
+<div class="footer">
+    <span>Price-data from CoinMarketCap</span>
+</div>
 <script>
     // Data generated from http://www.bikeforums.net/professional-cycling-fans/1113087-2017-tour-de-france-gpx-tcx-files.html
     var elevationData = [
@@ -65,23 +97,23 @@ var_dump($chartData);
                 point: {
                     xAxis: 0,
                     yAxis: 0,
-                    x: 2,
-                    y: 228
+                    x: 0,
+                    y: 1155000
                 },
                 text: 'INSTAR Distrobution'
             }, {
                 point: {
                     xAxis: 0,
                     yAxis: 0,
-                    x: 4,
-                    y: 238
+                    x: 0,
+                    y: 1155000
                 },
                 text: 'XNK Distrobution'
             }]
         }],
 <?php $startDate = $portfolio->getEarliestDate();
 $addingDate = $startDate;
-echo $startdate;
+
 $dateArray= array();
 while ($addingDate <= date("Y-m-d")) {
     $dateArray[] = $addingDate;
@@ -112,7 +144,7 @@ while ($addingDate <= date("Y-m-d")) {
         },
 
         tooltip: {
-            headerFormat: 'Date: {point.x:.1f}<br>',
+            headerFormat: 'Date: {point.x}<br>',
             pointFormat: '{point.y} USD',
             shared: true
         },
