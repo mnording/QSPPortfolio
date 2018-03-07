@@ -18,7 +18,7 @@ class database implements \interfaces\DataStorage
 
     public function __construct($dbconfig)
     {
-        $this->dblink = new mysqli("localhost",$dbconfig["user"],$dbconfig["pass"],$dbconfig["dbname"]);
+        $this->dblink = new mysqli($dbconfig["hostname"],$dbconfig["user"],$dbconfig["pass"],$dbconfig["dbname"]);
     }
 
     /***
@@ -73,6 +73,7 @@ class database implements \interfaces\DataStorage
 
             $usdValue = 0;
             foreach ($holdings as $holding) {
+
                 if (date("Y-m-d",$holding->GetDate()) <= date("Y-m-d",$checkingDate)) //Was this holding added to the portfolio at the date we are checking?
                 {
 
