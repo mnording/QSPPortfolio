@@ -61,6 +61,8 @@ $chartData = $portfolio->GetDailyPriceData(1519689600,time());
     <p>The above data is a visualization of the value of tokens that are shared with participants of the Quantstamp Proof-of-Care program.
         Tokens of audited companies are airdropped to participants and the above graph shows the value of the tokens that have been airdropped to this date.</p>
 </div>
+
+</div>
 <div class="footer">
     <span>Created by mnording</span><br>
     <span><a href="https://twitter.com/mnording?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @mnording</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -70,8 +72,6 @@ $chartData = $portfolio->GetDailyPriceData(1519689600,time());
    </span> </br>
     <span>Price-data from CoinMarketCap</span>
 </div>
-</div>
-
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/annotations.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -92,11 +92,11 @@ $chartData = $portfolio->GetDailyPriceData(1519689600,time());
         },
 
         title: {
-            text: 'QSP Portfolio Value'
+            text: 'Quantstamp PoC Portfolio'
         },
 
         subtitle: {
-            text: 'Holder Value over time'
+            text: 'Value of airdropped tokens over time'
         },
         responsive: {
             rules: [{

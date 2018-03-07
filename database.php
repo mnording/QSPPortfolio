@@ -37,12 +37,13 @@ class database implements \interfaces\DataStorage
     }
 
     /***
-     * @param $coin The coin that with the new value
+     * @param Entities\Coin $coin The coin that with the new value
      * @param $usdvalue The new usd value
      */
-    public function AddHourPriceData( $coin, $usdvalue)
+    public function AddHourPriceData($coin, $usdvalue)
     {
-        $query = "INSERT INTO  `hourly` (`coinid`,`usdvalue`) VALUES ($coin->GetId(),$usdvalue)";
+        $coinid = $coin->GetId();
+        $query = "INSERT INTO  `hourly` (`coinid`,`usdvalue`) VALUES ($coinid,$usdvalue)";
         $this->dblink->query($query);
     }
 
@@ -53,7 +54,8 @@ class database implements \interfaces\DataStorage
      */
     public function AddDailyPriceData( $coin,  $usdvalue,$day)
     {
-        $query = "INSERT INTO  `daily` (`coinid`,`usdvalue`,`dateAdded`) VALUES ($coin->GetId(),$usdvalue,'$day')";
+        $coinid = $coin->GetId();
+        $query = "INSERT INTO  `daily` (`coinid`,`usdvalue`,`dateAdded`) VALUES ($coinid,$usdvalue,'$day')";
        $this->dblink->query($query);
     }
 
@@ -158,7 +160,7 @@ class database implements \interfaces\DataStorage
             $res =  $this->dblink->query($query);
             $value = mysqli_fetch_array($res)[0];
             $yesterday = date('Y-m-d',strtotime("-1 days"));
-            $this->AddDailyPriceData($coin->GetId(),$value,$yesterday);
+            $this->AddDailyPriceData($coin,$value,$yesterday);
 
         }
 

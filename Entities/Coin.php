@@ -28,7 +28,7 @@ class Coin
     }
     public function GetId()
     {
-        return $this->id;
+        return intval($this->id);
     }
     public function GetTicker()
     {
