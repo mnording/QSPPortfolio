@@ -74,7 +74,7 @@ class database implements \interfaces\DataStorage
             $usdValue = 0;
             foreach ($holdings as $holding) {
 
-                if (date("Y-m-d",$holding->GetDate()) <= date("Y-m-d",$checkingDate)) //Was this holding added to the portfolio at the date we are checking?
+                if ($holding->GetDate() <= date("Y-m-d",$checkingDate)) //Was this holding added to the portfolio at the date we are checking?
                 {
 
                     //get history from db
@@ -111,7 +111,30 @@ class database implements \interfaces\DataStorage
     {
         return $this->GetPriceData($startTimeStamp,$endTimestamp,$holdings,"daily");
     }
+    public function GetDailyPriceDataByCoin($starttime,$endtime)
+    {
+            $coins = $this->GetCoins();
+        $completeArray = array();
+        foreach($coins as $coin)
+        {
+            $coinid = $coin->GetId();
+            $query = "SELECT * FROM `daily` WHERE `dateAdded` > FROM_UNIXTIME($starttime) AND `dateAdded` < FROM_UNIXTIME($endtime) AND `coinid` = $coinid  ORDER BY `dateAdded`"; // TODO: Run that query for all coins in holdings
+            $res = $this->dblink->query($query);
+            $coinarray = array();
+            while($row = mysqli_fetch_assoc($res))
+            {
+                $coinarray[] = intval($row["usdvalue"]);
 
+            }
+            $dataarray = array(
+                "name" => $coin->GetName(),
+                "data" => $coinarray
+            );
+            $completeArray[] = $dataarray;
+        }
+        return $completeArray;
+
+    }
     /***
      * @return array Return all coins in the DB
      */

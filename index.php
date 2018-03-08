@@ -26,6 +26,10 @@ $chartData = $portfolio->GetDailyPriceData(1519689600,time());
 <body>
 <div class="wrapper">
 <div id="container" style="height: 400px;"></div>
+    <div class="charttypecontrols">
+        <button onclick="BasicChart()"><img src="https://caring.quantstamp.com/assets/quantstamp-logo-blue-abe1f18b6db596d0b2a44cc9a89c39214a6bd3915c0ab77e23adaff70266a59e.svg"> Basic chart</button>
+        <button onclick="CoinChart()" style="float:right;">Chart per coin <img src="https://caring.quantstamp.com/assets/quantstamp-logo-blue-abe1f18b6db596d0b2a44cc9a89c39214a6bd3915c0ab77e23adaff70266a59e.svg"></button>
+    </div>
 <table class="cointable">
     <thead>
     <th></th>
@@ -75,143 +79,31 @@ $chartData = $portfolio->GetDailyPriceData(1519689600,time());
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/annotations.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script>
-    // Data generated from http://www.bikeforums.net/professional-cycling-fans/1113087-2017-tour-de-france-gpx-tcx-files.html
+<script src="js/charts.js"></script>
+<script>  // Data generated from http://www.bikeforums.net/professional-cycling-fans/1113087-2017-tour-de-france-gpx-tcx-files.html
     var elevationData = [
         <?php foreach($chartData as $datapoint) { echo "[".$datapoint["value"]."],";} ?>
     ] ;
-
     // Now create the chart
-    Highcharts.chart('container', {
+    <?php $startDate = $portfolio->getEarliestDate();
+                $addingDate = $startDate;
 
-        chart: {
-            type: 'area',
-            zoomType: 'x',
-            panning: true,
-            panKey: 'shift'
-        },
-
-        title: {
-            text: 'Quantstamp PoC Portfolio'
-        },
-
-        subtitle: {
-            text: 'Value of airdropped tokens over time'
-        },
-        responsive: {
-            rules: [{
-                condition: {
-                    maxWidth: 500
-                },
-                chartOptions: {
-                    legend: {
-                        align: 'center',
-                        verticalAlign: 'bottom',
-                        layout: 'horizontal'
-                    },
-                    yAxis: {
-                        labels: {
-                            align: 'left',
-                            x: 0,
-                            y: -5
-                        },
-                        title: {
-                            text: null
-                        }
-                    },
-                    subtitle: {
-                        text: null
-                    },
-                    credits: {
-                        enabled: false
-                    }
-                }
-            }]
-        },
-        annotations: [{
-            labelOptions: {
-                shape: 'connector',
-                align: 'right',
-                justify: false,
-                crop: true,
-                style: {
-                    fontSize: '0.8em',
-                    textOutline: '1px white'
-                }
-            },
-            labels: [{
-                point: {
-                    xAxis: 0,
-                    yAxis: 0,
-                    x: 0,
-                    y: 1155000
-                },
-                text: 'INSTAR Distrobution'
-            }, {
-                point: {
-                    xAxis: 0,
-                    yAxis: 0,
-                    x: 0,
-                    y: 1155000
-                },
-                text: 'XNK Distrobution'
-            }]
-        }],
-<?php $startDate = $portfolio->getEarliestDate();
-$addingDate = $startDate;
-
-$dateArray= array();
-while ($addingDate <= date("Y-m-d")) {
-    $dateArray[] = $addingDate;
-    $addingDate = strtotime("+1 day", strtotime($addingDate));
-    $addingDate = date("Y-m-d",$addingDate);
-}?>
-        xAxis: {
-            categories:  <?php echo json_encode($dateArray); ?>,
-            labels: {
-                format: '{value}'
-            },
-            minRange: 5,
-            title: {
-                text: 'Date'
-            }
-        },
-
-        yAxis: {
-            startOnTick: true,
-            endOnTick: false,
-            maxPadding: 0.35,
-            title: {
-                text: null
-            },
-            labels: {
-                format: '{value} USD'
-            }
-        },
-
-        tooltip: {
-            headerFormat: 'Date: {point.x}<br>',
-            pointFormat: '{point.y} USD',
-            shared: true
-        },
-
-        legend: {
-            enabled: false
-        },
-
-        series: [{
-            data: elevationData,
-            lineColor: Highcharts.getOptions().colors[1],
-            color: Highcharts.getOptions().colors[2],
-            fillOpacity: 0.5,
-            name: 'Elevation',
-            marker: {
-                enabled: false
-            },
-            threshold: null
-        }]
-
-    });
+                $dateArray= array();
+                while ($addingDate <= date("Y-m-d")) {
+        $dateArray[] = $addingDate;
+        $addingDate = strtotime("+1 day", strtotime($addingDate));
+        $addingDate = date("Y-m-d",$addingDate);
+    }
+    echo 'var categories = '.json_encode($dateArray).';'; ?>
+ var coinvalues =    <?php echo json_encode($portfolio->GetDailyPriceDataByCoin(1519689600,time())); ?>;
+function BasicChart(){
+    Chart.basic(elevationData,categories);
+}
+   function CoinChart()
+   {
+       Chart.stacked(coinvalues,categories);
+   }
+    BasicChart();
 </script>
 </body>
 </html>

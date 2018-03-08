@@ -56,5 +56,9 @@ class portfolio
     {
         return $this->dataStorage->GetLatestValueOfCoin($coinid);
     }
+    function GetDailyPriceDataByCoin($start,$end)
+    {
+        return $this->dataStorage->GetDailyPriceDataByCoin($start,$end);
+    }
 
 }
