@@ -66,37 +66,18 @@ class database implements \interfaces\DataStorage
      * @param $interval
      * @return array
      */
-    private function GetPriceData($startTimestamp, $endTimestamp, $holdings,$interval)
+    private function GetPriceData($startTimestamp, $endTimestamp, $interval)
     {
-        $checkingDate = $startTimestamp;
-        while($checkingDate <= $endTimestamp) {
-
-            $usdValue = 0;
-            foreach ($holdings as $holding) {
-
-                if ($holding->GetDate() <= date("Y-m-d",$checkingDate)) //Was this holding added to the portfolio at the date we are checking?
-                {
-
-                    //get history from db
-                        $datestring = date("Y-m-d",$checkingDate);
-
-                    $holdingCoin = $holding->GetCoin()->GetId();
-
-                    $query = "SELECT * FROM `".$interval."` WHERE DATE(`dateAdded`) = '$datestring' AND `coinid` = $holdingCoin"; // TODO: Run that query for all coins in holdings
-                    $res = $this->dblink->query($query);
-                    $row = mysqli_fetch_assoc($res);
-                    $usdValue += $row["usdvalue"];
-                    
-                }
-            }
-            if ($usdValue > 0) {
+            $query = "SELECT SUM(`usdvalue`),`dateAdded` FROM `" . $interval . "` WHERE `dateAdded` > FROM_UNIXTIME($startTimestamp) AND `dateAdded` < FROM_UNIXTIME($endTimestamp) GROUP BY `dateAdded`  ORDER BY `dateAdded`";
+            echo $query;
+            $res = $this->dblink->query($query);
+            while($row = mysqli_fetch_array($res))
+            {
                 $holdingDataForChart[] = array(
-                    "date" => $checkingDate,
-                    "value" => $usdValue);
+                    "date" =>  $row[1],
+                    "value" =>  $row[0]);
             }
 
-            $checkingDate = $checkingDate + (60 * 60 * 24); //adding a full day to the timestamp
-        }
         echo mysqli_error($this->dblink);
         return $holdingDataForChart;
     }
@@ -107,9 +88,9 @@ class database implements \interfaces\DataStorage
      * @param $holdings
      * @return array
      */
-    public function GetDailyPriceData( $startTimeStamp,  $endTimestamp, $holdings)
+    public function GetDailyPriceData( $startTimeStamp,  $endTimestamp)
     {
-        return $this->GetPriceData($startTimeStamp,$endTimestamp,$holdings,"daily");
+        return $this->GetPriceData($startTimeStamp,$endTimestamp,"daily");
     }
     public function GetDailyPriceDataByCoin($starttime,$endtime)
     {

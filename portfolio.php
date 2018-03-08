@@ -41,7 +41,7 @@ class portfolio
     }
     function GetDailyPriceData($start,$end)
     {
-        return $this->dataStorage->GetDailyPriceData($start,$end, $this->getHoldings());
+        return $this->dataStorage->GetDailyPriceData($start,$end);
     }
     function getAllCoins()
     {
