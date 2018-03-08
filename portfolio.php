@@ -60,5 +60,9 @@ class portfolio
     {
         return $this->dataStorage->GetDailyPriceDataByCoin($start,$end);
     }
+    function GetDropLabels($start,$end)
+    {
+        return $this->dataStorage->GetDropLabels($start,$end);
+    }
 
 }

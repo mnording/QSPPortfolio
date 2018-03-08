@@ -115,6 +115,27 @@ class database implements \interfaces\DataStorage
         return $completeArray;
 
     }
+    public function GetDropLabels($start,$end)
+    {
+        $dailydata = $this->GetDailyPriceData($start,$end);
+        $index = 0;
+        $labels =array();
+        foreach($dailydata as $day)
+        {
+           // var_dump($day);
+            $currentdate = $day["date"];
+            $query = "SELECT description from holding WHERE date(dateAdded) = DATE('$currentdate')";
+            $res = $this->dblink->query($query);
+            while($row = mysqli_fetch_assoc($res))
+            {
+                $labels[] = array("point"=> array(
+                    "x" => $index, "y" => $day["value"],"xAxis" =>0, "yAxis" => 0)
+                , "text" =>$row["description"]);
+            }
+            $index = $index +1;
+        }
+        return $labels;
+    }
     /***
      * @return array Return all coins in the DB
      */

@@ -2,7 +2,7 @@
  * Created by matti on 2018-03-07.
  */
 var Chart = {
-    basic : function(datapoints,categories)
+    basic : function(datapoints,categories,labels)
     {
         Highcharts.chart('container', {
 
@@ -52,32 +52,17 @@ var Chart = {
             },
             annotations: [{
                 labelOptions: {
-                    shape: 'connector',
+                    shape: 'callout',
                     align: 'right',
-                    justify: false,
+                    padding: 5,
+                    justify: true,
                     crop: true,
                     style: {
-                        fontSize: '0.8em',
-                        textOutline: '1px white'
+                        fontSize: '0.9em',
+                        textOutline: '1px black',
                     }
                 },
-                labels: [{
-                    point: {
-                        xAxis: 0,
-                        yAxis: 0,
-                        x: 0,
-                        y: 1155000
-                    },
-                    text: 'INSTAR Distrobution'
-                }, {
-                    point: {
-                        xAxis: 0,
-                        yAxis: 0,
-                        x: 0,
-                        y: 1155000
-                    },
-                    text: 'XNK Distrobution'
-                }]
+                labels: labels
             }],
 
         xAxis: {
@@ -139,6 +124,50 @@ var Chart = {
             subtitle: {
                 text: 'Value of airdropped tokens over time'
             },
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            align: 'center',
+                            verticalAlign: 'bottom',
+                            layout: 'horizontal'
+                        },
+                        yAxis: {
+                            labels: {
+                                align: 'left',
+                                x: 0,
+                                y: -5
+                            },
+                            title: {
+                                text: null
+                            }
+                        },
+                        subtitle: {
+                            text: null
+                        },
+                        credits: {
+                            enabled: false
+                        }
+                    }
+                }]
+            },
+            annotations: [{
+                labelOptions: {
+                    shape: 'callout',
+                    align: 'right',
+                    padding: 5,
+                    justify: true,
+                    crop: true,
+                    style: {
+                        fontSize: '0.9em',
+                        textOutline: '1px black',
+                    }
+                },
+                labels: labels
+            }],
             xAxis: {
                 categories: categories,
                 tickmarkPlacement: 'off',
@@ -147,6 +176,9 @@ var Chart = {
                 }
             },
             yAxis: {
+                startOnTick: true,
+                endOnTick: false,
+                maxPadding: 0.35,
                 title: {
                     text: 'USD'
                 },

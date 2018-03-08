@@ -96,12 +96,13 @@ $chartData = $portfolio->GetDailyPriceData(1519689600,time());
     }
     echo 'var categories = '.json_encode($dateArray).';'; ?>
  var coinvalues =    <?php echo json_encode($portfolio->GetDailyPriceDataByCoin(1519689600,time())); ?>;
+    var labels = <?php echo json_encode($portfolio->GetDropLabels(1519689600,time())); ?>;
 function BasicChart(){
-    Chart.basic(elevationData,categories);
+    Chart.basic(elevationData,categories,labels);
 }
    function CoinChart()
    {
-       Chart.stacked(coinvalues,categories);
+       Chart.stacked(coinvalues,categories,labels);
    }
     BasicChart();
 </script>
