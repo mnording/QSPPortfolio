@@ -151,9 +151,7 @@ var Chart = {
                     text: 'USD'
                 },
                 labels: {
-                    formatter: function () {
-                        return this.value / 1000;
-                    }
+                    format: '{value} USD'
                 }
             },
             tooltip: {

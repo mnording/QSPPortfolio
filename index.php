@@ -89,7 +89,7 @@ $chartData = $portfolio->GetDailyPriceData(1519689600,time());
                 $addingDate = $startDate;
 
                 $dateArray= array();
-                while ($addingDate <= date("Y-m-d")) {
+                while ($addingDate < date("Y-m-d")) {
         $dateArray[] = $addingDate;
         $addingDate = strtotime("+1 day", strtotime($addingDate));
         $addingDate = date("Y-m-d",$addingDate);

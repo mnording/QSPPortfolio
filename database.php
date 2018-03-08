@@ -69,7 +69,6 @@ class database implements \interfaces\DataStorage
     private function GetPriceData($startTimestamp, $endTimestamp, $interval)
     {
             $query = "SELECT SUM(`usdvalue`),`dateAdded` FROM `" . $interval . "` WHERE `dateAdded` > FROM_UNIXTIME($startTimestamp) AND `dateAdded` < FROM_UNIXTIME($endTimestamp) GROUP BY `dateAdded`  ORDER BY `dateAdded`";
-            echo $query;
             $res = $this->dblink->query($query);
             while($row = mysqli_fetch_array($res))
             {
