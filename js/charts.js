@@ -2,6 +2,36 @@
  * Created by matti on 2018-03-07.
  */
 var Chart = {
+    responsive : {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    align: 'center',
+                    verticalAlign: 'bottom',
+                    layout: 'horizontal'
+                },
+                yAxis: {
+                    labels: {
+                        align: 'left',
+                        x: 0,
+                        y: -5
+                    },
+                    title: {
+                        text: null
+                    }
+                },
+                subtitle: {
+                    text: null
+                },
+                credits: {
+                    enabled: false
+                }
+            }
+        }]
+    },
     basic : function(datapoints,categories,labels)
     {
         Highcharts.chart('container', {
@@ -20,36 +50,7 @@ var Chart = {
             subtitle: {
                 text: 'Value of airdropped tokens over time'
             },
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 500
-                    },
-                    chartOptions: {
-                        legend: {
-                            align: 'center',
-                            verticalAlign: 'bottom',
-                            layout: 'horizontal'
-                        },
-                        yAxis: {
-                            labels: {
-                                align: 'left',
-                                x: 0,
-                                y: -5
-                            },
-                            title: {
-                                text: null
-                            }
-                        },
-                        subtitle: {
-                            text: null
-                        },
-                        credits: {
-                            enabled: false
-                        }
-                    }
-                }]
-            },
+            responsive: Chart.responsive,
             annotations: [{
                 labelOptions: {
                     shape: 'callout',
@@ -116,7 +117,10 @@ var Chart = {
     {
         Highcharts.chart('container', {
             chart: {
-                type: 'area'
+                type: 'area',
+                zoomType: 'x',
+                panning: true,
+                panKey: 'shift'
             },
             title: {
                 text: 'Quantstamp PoC Portfolio'
@@ -124,36 +128,7 @@ var Chart = {
             subtitle: {
                 text: 'Value of airdropped tokens over time'
             },
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 500
-                    },
-                    chartOptions: {
-                        legend: {
-                            align: 'center',
-                            verticalAlign: 'bottom',
-                            layout: 'horizontal'
-                        },
-                        yAxis: {
-                            labels: {
-                                align: 'left',
-                                x: 0,
-                                y: -5
-                            },
-                            title: {
-                                text: null
-                            }
-                        },
-                        subtitle: {
-                            text: null
-                        },
-                        credits: {
-                            enabled: false
-                        }
-                    }
-                }]
-            },
+            responsive: Chart.responsive,
             annotations: [{
                 labelOptions: {
                     shape: 'callout',
@@ -173,7 +148,8 @@ var Chart = {
                 tickmarkPlacement: 'off',
                 title: {
                     enabled: false
-                }
+                },
+                minRange:5
             },
             yAxis: {
                 startOnTick: true,
