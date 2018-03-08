@@ -118,7 +118,7 @@ class database implements \interfaces\DataStorage
         foreach($coins as $coin)
         {
             $coinid = $coin->GetId();
-            $query = "SELECT * FROM `daily` WHERE `dateAdded` > $starttime AND `dateAdded` > $endtime AND `coinid` = $coinid"; // TODO: Run that query for all coins in holdings
+            $query = "SELECT * FROM `daily` WHERE `dateAdded` > FROM_UNIXTIME($starttime) AND `dateAdded` < FROM_UNIXTIME($endtime) AND `coinid` = $coinid  ORDER BY `dateAdded`"; // TODO: Run that query for all coins in holdings
             $res = $this->dblink->query($query);
             $coinarray = array();
             while($row = mysqli_fetch_assoc($res))

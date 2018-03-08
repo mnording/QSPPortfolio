@@ -26,6 +26,10 @@ $chartData = $portfolio->GetDailyPriceData(1519689600,time());
 <body>
 <div class="wrapper">
 <div id="container" style="height: 400px;"></div>
+    <div class="charttypecontrols">
+        <button onclick="BasicChart()"><img src="https://caring.quantstamp.com/assets/quantstamp-logo-blue-abe1f18b6db596d0b2a44cc9a89c39214a6bd3915c0ab77e23adaff70266a59e.svg"> Basic chart</button>
+        <button onclick="CoinChart()" style="float:right;">Chart per coin <img src="https://caring.quantstamp.com/assets/quantstamp-logo-blue-abe1f18b6db596d0b2a44cc9a89c39214a6bd3915c0ab77e23adaff70266a59e.svg"></button>
+    </div>
 <table class="cointable">
     <thead>
     <th></th>
@@ -80,7 +84,6 @@ $chartData = $portfolio->GetDailyPriceData(1519689600,time());
     var elevationData = [
         <?php foreach($chartData as $datapoint) { echo "[".$datapoint["value"]."],";} ?>
     ] ;
-
     // Now create the chart
     <?php $startDate = $portfolio->getEarliestDate();
                 $addingDate = $startDate;
@@ -92,11 +95,15 @@ $chartData = $portfolio->GetDailyPriceData(1519689600,time());
         $addingDate = date("Y-m-d",$addingDate);
     }
     echo 'var categories = '.json_encode($dateArray).';'; ?>
+ var coinvalues =    <?php echo json_encode($portfolio->GetDailyPriceDataByCoin(1519689600,time())); ?>;
+function BasicChart(){
     Chart.basic(elevationData,categories);
-
-    var coinvalues =    <?php echo json_encode($portfolio->GetDailyPriceDataByCoin(1519689600,time())); ?>;
-
-    Chart.stacked(coinvalues,categories);
+}
+   function CoinChart()
+   {
+       Chart.stacked(coinvalues,categories);
+   }
+    BasicChart();
 </script>
 </body>
 </html>

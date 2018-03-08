@@ -166,7 +166,7 @@ var Chart = {
                     lineColor: '#666666',
                     lineWidth: 1,
                     marker: {
-                        lineWidth: 1,
+                        lineWidth: 0,
                         lineColor: '#666666'
                     }
                 }
