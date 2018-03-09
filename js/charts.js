@@ -32,6 +32,17 @@ var Chart = {
             }
         }]
     },
+    labelOptions : {
+    shape: 'callout',
+        align: 'right',
+    padding: 5,
+    justify: true,
+    crop: true,
+    style: {
+    fontSize: '0.9em',
+        textOutline: '1px black',
+}
+    },
     basic : function(datapoints,categories,labels)
     {
         Highcharts.chart('container', {
@@ -52,24 +63,16 @@ var Chart = {
             },
             responsive: Chart.responsive,
             annotations: [{
-                labelOptions: {
-                    shape: 'callout',
-                    align: 'right',
-                    padding: 5,
-                    justify: true,
-                    crop: true,
-                    style: {
-                        fontSize: '0.9em',
-                        textOutline: '1px black',
-                    }
-                },
-                labels: labels
+                labelOptions: Chart.labelOptions,
+                labels: labels,
+                zIndex:10000
             }],
 
         xAxis: {
             categories:  categories,
             labels: {
-                format: '{value}'
+                format: '{value}',
+                autoRotation: [-45]
             },
             minRange: 5,
             title: {
@@ -130,22 +133,12 @@ var Chart = {
             },
             responsive: Chart.responsive,
             annotations: [{
-                labelOptions: {
-                    shape: 'callout',
-                    align: 'right',
-                    padding: 5,
-                    justify: true,
-                    crop: true,
-                    style: {
-                        fontSize: '0.9em',
-                        textOutline: '1px black',
-                    }
-                },
-                labels: labels
+                labelOptions: Chart.labelOptions,
+                labels: labels,
+                zIndex:10000
             }],
             xAxis: {
                 categories: categories,
-                tickmarkPlacement: 'off',
                 title: {
                     enabled: false
                 },
