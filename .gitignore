@@ -48,3 +48,4 @@ Temporary Items
 .idea/
 dbconfig.php
 tracking.php
+/node_modules/
