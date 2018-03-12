@@ -74,7 +74,7 @@ class database implements \interfaces\DataStorage
             {
                 $holdingDataForChart[] = array(
                     "date" =>  $row[1],
-                    "value" =>  $row[0]);
+                    "value" =>  intval($row[0]));
             }
 
         echo mysqli_error($this->dblink);

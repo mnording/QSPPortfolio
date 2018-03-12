@@ -9,7 +9,6 @@ error_reporting(-1);
 setlocale(LC_MONETARY, 'en_US');
 require 'portfolio.php';
 $portfolio = new portfolio();
-$chartData = $portfolio->GetDailyPriceData(1519689600,time());
 ?>
 <!doctype html>
 <html class="no-js" lang="">
@@ -76,35 +75,40 @@ $chartData = $portfolio->GetDailyPriceData(1519689600,time());
    </span> </br>
     <span>Price-data from CoinMarketCap</span>
 </div>
+<script
+    src="https://code.jquery.com/jquery-1.12.4.min.js"
+    integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+    crossorigin="anonymous"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/annotations.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="js/charts.js"></script>
-<script>  // Data generated from http://www.bikeforums.net/professional-cycling-fans/1113087-2017-tour-de-france-gpx-tcx-files.html
-    var elevationData = [
-        <?php foreach($chartData as $datapoint) { echo "[".$datapoint["value"]."],";} ?>
-    ] ;
-    // Now create the chart
-    <?php $startDate = $portfolio->getEarliestDate();
-                $addingDate = $startDate;
+<script> 
+    var dates;
+    var totals;
+    var labels;
+    var percoin;
+    $.ajax("api/getData.php",{
+        success: function(data)
+        {
 
-                $dateArray= array();
-                while ($addingDate < date("Y-m-d")) {
-        $dateArray[] = $addingDate;
-        $addingDate = strtotime("+1 day", strtotime($addingDate));
-        $addingDate = date("Y-m-d",$addingDate);
+            dates = data.dates;
+            totals = data.totals;
+            labels = data.labels;
+            percoin = data.percoin;
+            BasicChart();
+        },
+        dataType: "json"
+    })
+
+    function BasicChart(){
+        Chart.basic(totals,dates,labels);
     }
-    echo 'var categories = '.json_encode($dateArray).';'; ?>
- var coinvalues =    <?php echo json_encode($portfolio->GetDailyPriceDataByCoin(1519689600,time())); ?>;
-    var labels = <?php echo json_encode($portfolio->GetDropLabels(1519689600,time())); ?>;
-function BasicChart(){
-    Chart.basic(elevationData,categories,labels);
-}
-   function CoinChart()
-   {
-       Chart.stacked(coinvalues,categories,labels);
-   }
-    BasicChart();
+    function CoinChart()
+    {
+        Chart.stacked(percoin,dates,labels);
+    }
+
 </script>
 </body>
 </html>
