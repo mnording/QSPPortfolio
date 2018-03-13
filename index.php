@@ -5,10 +5,6 @@
  * Date: 2018-02-22
  * Time: 09:53
  */
-error_reporting(-1);
-setlocale(LC_MONETARY, 'en_US');
-require 'portfolio.php';
-$portfolio = new portfolio();
 ?>
 <!doctype html>
 <html class="no-js" lang="">
@@ -21,8 +17,26 @@ $portfolio = new portfolio();
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
+
 </head>
 <body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+<script id="coinrow-template" type="text/x-handlebars-template">
+     {{#each coin}}
+   <tr>
+       <td><img src='{{coinimage}}'></td>
+        <td>{{name}}</td>
+        <td>{{amount}}</td>
+        <td>{{value}}</td>
+        </tr>
+    {{/each}}
+     <tr class="summaryrow">
+         <td></td>
+         <td>Total</td>
+         <td></td>
+         <td>{{currentTotal}}</td>
+     </tr>
+</script>
 <div class="wrapper">
 <div id="container" style="height: 400px;"></div>
     <div class="charttypecontrols">
@@ -36,28 +50,7 @@ $portfolio = new portfolio();
     <th>Amount of Coins</th>
     <th>Current Value</th>
     </thead>
-    <tbody>
-    <?php
-    $totalvalue = 0;
-    foreach($portfolio->getAllCoins() as $coin)
-    {
-        $amount = $portfolio->GetAmountOfCoin($coin->GetId());
-        $currentValue = $portfolio->GetLatestValue($coin->GetId());
-        echo "<tr>";
-        echo "<td><img src='".$coin->GetImageUrl()."'></td>";
-        echo "<td>".$coin->GetName()."</td>";
-        echo "<td>".number_format($amount)."</td>";
-        echo "<td>".money_format('%i', $currentValue)."</td>";
-        echo "</tr>";
-        $totalvalue += $currentValue;
-    }
-    ?>
-    <tr class="summaryrow">
-        <td></td>
-        <td>Total</td>
-        <td></td>
-        <td><?php echo money_format('%i', $totalvalue) ?></td>
-    </tr>
+    <tbody id="cointablebody">
     </tbody>
 </table>
 <div class="content">
@@ -83,11 +76,13 @@ $portfolio = new portfolio();
 <script src="https://code.highcharts.com/modules/annotations.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="js/charts.js"></script>
-<script> 
+<script>
     var dates;
     var totals;
     var labels;
     var percoin;
+    var coins;
+    var totalValue;
     $.ajax("api/getData.php",{
         success: function(data)
         {
@@ -95,8 +90,11 @@ $portfolio = new portfolio();
             dates = data.dates;
             totals = data.totals;
             labels = data.labels;
+            coins = data.coins;
+            totalValue = data.currentTotal;
             percoin = data.percoin;
             BasicChart();
+            renderTable();
         },
         dataType: "json"
     })
@@ -108,7 +106,14 @@ $portfolio = new portfolio();
     {
         Chart.stacked(percoin,dates,labels);
     }
-
+function renderTable(){
+    var source   = document.getElementById("coinrow-template").innerHTML;
+    var template = Handlebars.compile(source);
+    var context = { coin : coins , currentTotal : totalValue };
+    var html    = template(context);
+    var table = document.getElementById("cointablebody");
+    table.innerHTML = (html);
+}
 </script>
 </body>
 </html>

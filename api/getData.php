@@ -5,6 +5,7 @@
  * Date: 2018-03-12
  * Time: 13:21
  */
+setlocale(LC_MONETARY, 'en_US');
 $datatype = $_GET["type"];
     require '../portfolio.php';
     $portfolio = new portfolio();
@@ -36,6 +37,25 @@ $valuesArray["totals"] = $valuesOnly;
 
 
     $valuesArray["percoin"] = $portfolio->GetDailyPriceDataByCoin(1519689600,time());
+
+    $totalvalue = 0;
+$coins = array();
+    foreach($portfolio->getAllCoins() as $coin)
+    {
+        $amount = $portfolio->GetAmountOfCoin($coin->GetId());
+        $currentValue = $portfolio->GetLatestValue($coin->GetId());
+        $totalvalue += $currentValue;
+        $coins[] = array(
+            "name" => $coin->GetName(),
+            "amount" => number_format($amount),
+            "value" => money_format('%i', $currentValue),
+            "coinimage" => $coin->GetImageUrl()
+        );
+
+    }
+$valuesArray["coins"] = $coins;
+$valuesArray["currentTotal"] = money_format('%i', $totalvalue);
+
 
 echo json_encode($valuesArray);
 
