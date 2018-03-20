@@ -1,0 +1,14 @@
+    {{#each coin}}
+    <tr>
+        <td><img src='{{coinimage}}'></td>
+            <td>{{name}}</td>
+            <td>{{amount}}</td>
+            <td>{{value}}</td>
+        </tr>
+        {{/each}}
+        <tr class="summaryrow">
+            <td></td>
+            <td>Total</td>
+            <td></td>
+            <td>{{currentTotal}}</td>
+        </tr>

@@ -20,23 +20,8 @@
 
 </head>
 <body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
-<script id="coinrow-template" type="text/x-handlebars-template">
-     {{#each coin}}
-   <tr>
-       <td><img src='{{coinimage}}'></td>
-        <td>{{name}}</td>
-        <td>{{amount}}</td>
-        <td>{{value}}</td>
-        </tr>
-    {{/each}}
-     <tr class="summaryrow">
-         <td></td>
-         <td>Total</td>
-         <td></td>
-         <td>{{currentTotal}}</td>
-     </tr>
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.runtime.js"></script>
+<script src="js/templates/templates.js"></script>
 <div class="wrapper">
 <div id="container" style="height: 400px;"></div>
     <div class="charttypecontrols">
@@ -107,8 +92,7 @@
         Chart.stacked(percoin,dates,labels);
     }
 function renderTable(){
-    var source   = document.getElementById("coinrow-template").innerHTML;
-    var template = Handlebars.compile(source);
+    var template = Handlebars.templates['coinrow'];
     var context = { coin : coins , currentTotal : totalValue };
     var html    = template(context);
     var table = document.getElementById("cointablebody");
