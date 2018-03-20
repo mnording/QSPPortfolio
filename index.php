@@ -92,7 +92,7 @@
         Chart.stacked(percoin,dates,labels);
     }
 function renderTable(){
-    var template = Handlebars.templates['coinrow'];
+    var template = portfolio.templates['coinrow'];
     var context = { coin : coins , currentTotal : totalValue };
     var html    = template(context);
     var table = document.getElementById("cointablebody");
